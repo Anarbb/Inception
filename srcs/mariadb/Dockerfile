@@ -1,31 +1,26 @@
+# Use the official Debian base image
 FROM debian:latest
 
-# Create a non-root user to run MariaDB
-RUN groupadd -r mysql && useradd -r -g mysql mysql
+# Install MariaDB Server
+RUN apt-get update
+RUN apt-get install -y mariadb-server \
+    mariadb-client \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install MariaDB server and clean up after installation
-RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y mariadb-server && \
-    rm -rf /var/lib/apt/lists/* && \
-    apt-get clean
+RUN mkdir -p /var/run/mysqld \
+&& chown -R mysql:mysql /var/run/mysqld \
+&& chmod 777 /var/run/mysqld
 
-# Set environment variables
-ENV MYSQL_ROOT_PASSWORD=123456
-ENV MYSQL_DATABASE=wordpress
-ENV MYSQL_USER=wordpress
-ENV MYSQL_PASSWORD=123456
+COPY ./config/mysqld.cnf /etc/mysql/mariadb.conf.d/mysqld.cnf
 
-# Create necessary directories with proper permissions
-RUN mkdir -p /var/run/mysqld && chown -R mysql:mysql /var/run/mysqld
-RUN mkdir -p /var/lib/mysql && chown -R mysql:mysql /var/lib/mysql
-RUN mkdir -p /var/log/mysql && chown -R mysql:mysql /var/log/mysql
-RUN chmod 777 /var/run/mysqld
-
-
-
-# Switch to the mysql user and start MySQL service on container startup
-USER mysql
-CMD ["mysqld"]
-
-# Expose the default MySQL port
+# Expose MariaDB port
 EXPOSE 3306
+
+COPY ./scripts/setup.sh /setup.sh
+RUN chmod +x /setup.sh
+
+ENTRYPOINT [ "/setup.sh" ]
+
+# You can also use the following CMD to run MariaDB in the foreground if needed:
+CMD ["mysqld", "--bind-address=0.0.0.0"]
+

@@ -6,15 +6,28 @@ services:
       context: ./nginx
     ports:
       - "443:443"
+    volumes:
+      - wordpress:/var/www/html
+
+  wordpress:
+    build:
+      context: ./wordpress
+    ports:
+      - "9000:9000"
+    env_file:
+      - .env
+    volumes:
+      - wordpress:/var/www/html
 
   mariadb:
     build:
       context: ./mariadb
+    env_file:
+      - .env
     ports:
       - "3306:3306"
     volumes:
       - mariadb:/var/lib/mysql
-    
-
 volumes:
+  wordpress:
   mariadb:
