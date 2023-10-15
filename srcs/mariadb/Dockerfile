@@ -1,5 +1,7 @@
 # Use the official Debian base image
-FROM debian:latest
+FROM debian:buster
+LABEL org.opencontainers.image.repository="mariadb"
+
 
 # Install MariaDB Server
 RUN apt-get update
@@ -20,6 +22,7 @@ COPY ./scripts/setup.sh /setup.sh
 RUN chmod +x /setup.sh
 
 ENTRYPOINT [ "/setup.sh" ]
+
 
 # You can also use the following CMD to run MariaDB in the foreground if needed:
 CMD ["mysqld", "--bind-address=0.0.0.0"]

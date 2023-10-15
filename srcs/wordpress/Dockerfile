@@ -1,4 +1,6 @@
-FROM debian:latest
+FROM debian:buster
+
+LABEL org.opencontainers.image.repository="wordpress"
 
 RUN apt-get update
 
@@ -9,7 +11,8 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 	chmod +x wp-cli.phar && \
 	mv wp-cli.phar /usr/local/bin/wp
 
-COPY ./conf/www.conf /etc/php/8.2/fpm/pool.d/
+COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/
+RUN mkdir -p /run/php
 # install wordpress
 COPY conf/wordpress.sh /wordpress.sh
 RUN chmod +x /wordpress.sh
@@ -19,4 +22,4 @@ WORKDIR /var/www/html/
 
 EXPOSE 9000
 
-CMD ["/usr/sbin/php-fpm8.2", "-F"]
+CMD ["php-fpm7.3", "-F"]

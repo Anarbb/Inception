@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Start the MySQL service
-service mariadb start
+service mysql start
 
 if [ -d "/var/lib/mysql/$MYSQL_DATABASE" ]
 then 
@@ -10,15 +10,15 @@ then
 else
 	
 # Secure the MySQL installation
-mysql_secure_installation << _EOF_
-Y
-rootata42
-rootata42
-Y
-n
-Y
-Y
-_EOF_
+# mysql_secure_installation << _EOF_
+# Y
+# rootata42
+# rootata42
+# Y
+# n
+# Y
+# Y
+# _EOF_
 
 # Grant privileges to root user
 echo "GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
@@ -30,7 +30,8 @@ echo "Database created"
 fi
 
 # Stop the MySQL service
-service mariadb stop
+service mysql stop
 
 # Execute the provided command (e.g., your application)
 exec "$@"
+

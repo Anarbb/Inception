@@ -2,32 +2,61 @@ version: '3.3'
 
 services:
   nginx:
+    container_name: nginx
     build:
       context: ./nginx
     ports:
       - "443:443"
     volumes:
       - wordpress:/var/www/html
-
-  wordpress:
-    build:
-      context: ./wordpress
-    ports:
-      - "9000:9000"
-    env_file:
-      - .env
-    volumes:
-      - wordpress:/var/www/html
+    networks:
+      - web
+    depends_on:
+      - wordpress
+    restart: always
 
   mariadb:
+    container_name: mariadb
     build:
       context: ./mariadb
     env_file:
       - .env
-    ports:
-      - "3306:3306"
     volumes:
       - mariadb:/var/lib/mysql
+    networks:
+      - database
+    restart: always
+
+  wordpress:
+    container_name: wordpress
+    build:
+      context: ./wordpress
+    env_file:
+      - .env
+    volumes:
+      - wordpress:/var/www/html
+    depends_on:
+      - mariadb
+      - redis
+    networks:
+      - web
+      - database
+      - redis
+    restart: always
+
+  redis:
+    container_name: redis
+    build:
+      context: ./bonus/redis
+    networks:
+      - redis
+    restart: always
+
 volumes:
   wordpress:
   mariadb:
+
+networks:
+  web:
+  database:
+  redis:
