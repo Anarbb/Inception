@@ -26,13 +26,17 @@ else
     sed -i "s/database_name_here/$MYSQL_DATABASE/g" ./wp-config-sample.php
     cp /var/www/html/wp-config-sample.php ./wp-config.php
     chown -R www-data:www-data /var/www/html
+    until nc -z -v -w30 $MYSQL_HOSTNAME 3306
+    do
+        echo "Waiting for database connection..."
+        sleep 5
+    done
     wp core install --allow-root --url="$SITE_URL" --title="$SITE_TITLE" --admin_user="$ADMIN_USER" --admin_password="$ADMIN_PW" --admin_email="$ADMIN_EMAIL"
     wp user create $USER $USER_EMAIL --role=$USER_ROLE --user_pass=$USER_PW --allow-root
     wp plugin install redis-cache --activate --allow-root
     # enable object cache
     wp config set WP_REDIS_HOST "$REDIS_HOSTNAME" --raw --type=constant --allow-root
     wp config set WP_REDIS_PORT "$REDIS_PORT" --raw --type=constant --allow-root
-    wp config set WP_CACHE true --raw --type=constant --allow-root
     wp redis enable --allow-root --force
 fi
 

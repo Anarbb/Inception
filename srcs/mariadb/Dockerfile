@@ -23,7 +23,4 @@ RUN chmod +x /setup.sh
 
 ENTRYPOINT [ "/setup.sh" ]
 
-
-# You can also use the following CMD to run MariaDB in the foreground if needed:
 CMD ["mysqld", "--bind-address=0.0.0.0"]
-
