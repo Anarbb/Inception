@@ -1,0 +1,8 @@
+baseURL = 'https://localhost/'
+languageCode = 'en-us'
+title = 'Anas Arbaoui blog'
+theme = 'ananke'
+
+[params]
+  author = "Anas Arbaoui"
+  description = "My blog"
