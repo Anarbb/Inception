@@ -32,7 +32,7 @@ COPY ./conf/config.toml /app/blog/hugo.toml
 EXPOSE 1313
 CMD     ["hugo", "server", \
          "--bind=0.0.0.0", \
-         "--baseURL=https://localhost/blog", \
+         "--baseURL=https://aarbaoui.42.fr/blog", \
          "-p", "1313", \
           "--appendPort=false", \
           "--buildDrafts"]

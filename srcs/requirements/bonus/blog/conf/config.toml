@@ -1,4 +1,4 @@
-baseURL = 'https://localhost/'
+baseURL = 'https://aarbaoui.42.fr/'
 languageCode = 'en-us'
 title = 'Anas Arbaoui blog'
 theme = 'ananke'
