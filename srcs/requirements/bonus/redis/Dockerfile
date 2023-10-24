@@ -1,7 +1,5 @@
 FROM debian:buster
 
-LABEL org.opencontainers.image.repository="redis"
-
 RUN apt-get update && apt-get upgrade -y
 
 RUN apt-get install -y redis-server

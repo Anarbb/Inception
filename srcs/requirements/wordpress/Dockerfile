@@ -1,7 +1,5 @@
 FROM debian:buster
 
-LABEL org.opencontainers.image.repository="wordpress"
-
 RUN apt-get update
 
 # download php-fpm

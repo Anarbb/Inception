@@ -1,7 +1,5 @@
 # Use the official Debian base image
 FROM debian:buster
-LABEL org.opencontainers.image.repository="mariadb"
-
 
 # Install MariaDB Server
 RUN apt-get update
