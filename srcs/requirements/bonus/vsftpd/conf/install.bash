@@ -6,13 +6,6 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 
-# Define the FTP username and password
-FTP_USERNAME="ven"
-FTP_PASSWORD="your_password_here"
-
-# Set the new home directory for the FTP user
-NEW_HOME_DIRECTORY="/var/www/html"
-
 # Create a new FTP user with the specified home directory
 useradd -m -d "$NEW_HOME_DIRECTORY" -s /bin/bash $FTP_USERNAME
 
@@ -35,9 +28,6 @@ mkdir -p /var/run/vsftpd/empty
 
 # Set proper permissions on the directory
 chmod 555 /var/run/vsftpd/empty
-
-# Verify that the directory has the correct permissions
-ls -ld /var/run/vsftpd/empty
 
 # Exit the script
 exec "$@"

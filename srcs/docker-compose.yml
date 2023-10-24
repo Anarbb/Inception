@@ -62,6 +62,8 @@ services:
     volumes:
       - wordpress:/var/www/html
     restart: always
+    env_file:
+      - .env
 
   adminer:
     container_name: adminer
