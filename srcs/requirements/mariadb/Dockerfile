@@ -6,8 +6,7 @@ LABEL org.opencontainers.image.repository="mariadb"
 # Install MariaDB Server
 RUN apt-get update
 RUN apt-get install -y mariadb-server \
-    mariadb-client \
-    && rm -rf /var/lib/apt/lists/*
+    mariadb-client
 
 RUN mkdir -p /var/run/mysqld \
 && chown -R mysql:mysql /var/run/mysqld \

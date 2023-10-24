@@ -8,17 +8,7 @@ then
 
 	echo "Database already exists"
 else
-	
-# Secure the MySQL installation
-# mysql_secure_installation << _EOF_
-# Y
-# rootata42
-# rootata42
-# Y
-# n
-# Y
-# Y
-# _EOF_
+
 
 # Grant privileges to root user
 echo "GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
@@ -32,6 +22,5 @@ fi
 # Stop the MySQL service
 service mysql stop
 
-# Execute the provided command (e.g., your application)
 exec "$@"
 
